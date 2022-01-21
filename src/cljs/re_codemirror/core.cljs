@@ -1,5 +1,6 @@
 (ns re-codemirror.core
   (:require [reagent.core :as r]
+            [reagent.dom  :as rd]
             [cljsjs.codemirror]))
 
 (defn opts
@@ -41,7 +42,7 @@
                                  ;; create a CodeMirror object from the textarea
                                  ;; merge in default options with passed opts
                                  cm   (-> this
-                                          r/dom-node
+                                          rd/dom-node
                                           (js/CodeMirror.fromTextArea
                                            (clj->js (merge {:mode  "javascript"
                                                             :theme "default"}
