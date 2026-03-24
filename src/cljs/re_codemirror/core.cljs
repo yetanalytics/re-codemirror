@@ -25,7 +25,11 @@
   [this cm _]
   (let [{:keys [value]} (conf this)]
     (when-not (= value (.getValue cm))
-      (.setValue cm value))))
+      (let [doc (.getDoc cm)
+            from (.getCursor doc "from")
+            to (.getCursor doc "to")]
+      (.setValue cm value)
+      (.setSelection dock from to)))))
 
 (defn codemirror
   []
