@@ -77,3 +77,25 @@ Manage state through [re-frame](https://github.com/yetanalytics/re-frame).
 ```
 
 You can also manage state through any other library of your choice.
+
+## Dependency vulnerability tracking
+
+The `Deps` workflow regenerates `pom.xml` from `deps.edn` and submits the Maven
+dependency tree to GitHub's dependency graph on pushes to `master`. It can also
+be run manually. Dependabot uses this graph to check for known vulnerabilities.
+
+To regenerate the POM locally, run:
+
+```sh
+clojure -X:deps mvn-pom :user nil
+```
+
+This excludes local user dependency configuration while retaining the POM's
+project metadata. Since `deps.edn` does not pin Clojure itself, the generated POM
+also includes the Clojure CLI's default Clojure dependency.
+The snapshot is associated with `deps.edn` and includes ClojureScript, Reagent,
+the CLJSJS CodeMirror package, and their transitive Maven dependencies.
+
+The CLJSJS package is submitted under its Maven coordinates. This does not
+establish npm advisory coverage for the JavaScript bundled inside that package;
+upstream JavaScript dependencies require separate coverage review.
